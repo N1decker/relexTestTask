@@ -1,1 +1,23 @@
-
+spring:
+  datasource:
+    username: user
+    password: password
+    url: jdbc:postgresql://localhost:5432/relexTestTask
+    driver-class-name: org.postgresql.Driver
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+        jdbc:
+          batch_size: 100
+    open-in-view: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+  liquibase:
+    enabled: false
