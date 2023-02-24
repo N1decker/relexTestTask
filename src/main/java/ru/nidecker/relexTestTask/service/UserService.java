@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.nidecker.relexTestTask.dto.RegistrationDTO;
 import ru.nidecker.relexTestTask.entity.Role;
@@ -18,8 +19,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-    private static final String USER_NOT_FOUND_MESSAGE = "User with email %s not found";
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bcryptPasswordEncoder;
+
+    private static final String USER_NOT_FOUND_MESSAGE = "User with email %s not found";
 
     public String createUser(RegistrationDTO dto) {
         if (userRepository.countUsersByNameEquals(dto.getName()) > 0) {
@@ -33,7 +36,7 @@ public class UserService implements UserDetailsService {
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setName(dto.getName());
-        user.setSecretKey(secretKey);
+        user.setSecretKey(bcryptPasswordEncoder.encode(secretKey));
         user.setRoles(Set.of(Role.USER));
 
         userRepository.save(user);

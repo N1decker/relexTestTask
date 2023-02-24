@@ -43,10 +43,11 @@ public class User extends BaseEntity implements UserDetails {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private Set<Wallet> wallets;
 
-    private boolean enabled;
-    private boolean locked;
+    private boolean enabled = true;
+    private boolean locked = false;
 
     @Override
     public boolean equals(Object o) {
@@ -83,7 +84,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return locked;
+        return !locked;
     }
 
     @Override

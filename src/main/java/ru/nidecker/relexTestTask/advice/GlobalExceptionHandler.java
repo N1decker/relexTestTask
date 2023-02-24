@@ -1,5 +1,6 @@
 package ru.nidecker.relexTestTask.advice;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import ru.nidecker.relexTestTask.exception.FieldAlreadyTakenException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({FieldAlreadyTakenException.class})
+    @ExceptionHandler({FieldAlreadyTakenException.class, ConstraintViolationException.class})
     public ResponseEntity<?> handleException(Exception exception, WebRequest request) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
