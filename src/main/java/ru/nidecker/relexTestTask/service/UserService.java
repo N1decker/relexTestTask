@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
         user.setRoles(Set.of(Role.USER));
 
         userRepository.save(user);
-        return secretKey;
+        return "Save this code, otherwise important operations cannot be confirmed without it: " + secretKey;
     }
 
     @Override

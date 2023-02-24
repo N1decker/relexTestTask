@@ -11,7 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class BaseEntity {
 
     @Id
@@ -21,6 +21,10 @@ public class BaseEntity {
     @NotBlank
     @Column(nullable = false, unique = true)
     private String name;
+
+    public BaseEntity(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {
