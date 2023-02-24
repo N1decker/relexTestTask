@@ -1,20 +1,26 @@
 package ru.nidecker.relexTestTask;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 
 @SpringBootApplication
+@Slf4j
 public class RelexTestTaskApplication {
 
-	public static void main(String[] args) throws IOException {
-		SpringApplication.run(RelexTestTaskApplication.class, args);
-		openSwaggerUI();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RelexTestTaskApplication.class, args);
+        openSwaggerUI();
+    }
 
-	private static void openSwaggerUI() throws IOException {
-		Runtime rt = Runtime.getRuntime();
-		rt.exec("rundll32 url.dll,FileProtocolHandler " + "http://localhost:8080/swagger-ui.html");
-	}
+    private static void openSwaggerUI() {
+        Runtime rt = Runtime.getRuntime();
+        try {
+            rt.exec("rundll32 url.dll,FileProtocolHandler " + "http://localhost:8080/swagger-ui.html");
+        } catch (IOException e) {
+            log.error("Couldn't launch Swagger in Chrome");
+        }
+    }
 }
