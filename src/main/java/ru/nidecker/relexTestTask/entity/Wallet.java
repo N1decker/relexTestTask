@@ -27,7 +27,13 @@ public class Wallet extends BaseEntity {
 
     @NotNull
     @Column(nullable = false)
-    private Double balance;
+    private Double balance = 0d;
+
+    public Wallet(String name, User user, Double balance) {
+        super(name);
+        this.user = user;
+        this.balance = balance;
+    }
 
     @Override
     public boolean equals(Object o) {

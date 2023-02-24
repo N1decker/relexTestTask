@@ -13,8 +13,8 @@ import java.util.Objects;
 @NoArgsConstructor
 public class CurrencyName extends BaseEntity {
 
-    public CurrencyName(String currencyName) {
-        super(currencyName);
+    public CurrencyName(String name) {
+        super(name);
     }
 
     @Override

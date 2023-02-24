@@ -33,10 +33,10 @@ public class CurrencyNameService {
 
         List<String> currencyNames = currencyNameRepository.findAll().stream().map(CurrencyName::getName).toList();
         if (currencyNames.contains(currencyName)) {
-            throw new EntityAlreadyExistsException(currencyName + "already exists");
+            throw new EntityAlreadyExistsException(currencyName + " already exists");
         }
 
-        log.info("Currency " + currencyName + " created");
+        log.info(currencyName + " currency created");
         return currencyNameRepository.save(new CurrencyName(currencyName));
     }
 }

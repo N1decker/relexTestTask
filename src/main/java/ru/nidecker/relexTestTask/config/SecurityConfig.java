@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.nidecker.relexTestTask.entity.Role;
 import ru.nidecker.relexTestTask.service.UserService;
 
 @Configuration
@@ -28,18 +29,14 @@ public class SecurityConfig {
                         "/swagger-ui/**",
                         "/swagger-ui.html").permitAll()
                 .requestMatchers("/rest/registration").permitAll()
+                .requestMatchers("rest/admin/**").hasRole(Role.ADMIN.name())
+                .requestMatchers("rest/user/").hasRole(Role.USER.name())
                 .anyRequest().authenticated()
                 .and().httpBasic()
         ;
 
         return http.build();
     }
-
-//    @Bean
-//    public AuthenticationManager authenticationManager(
-//            AuthenticationConfiguration authConfig) throws Exception {
-//        return authConfig.getAuthenticationManager();
-//    }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
