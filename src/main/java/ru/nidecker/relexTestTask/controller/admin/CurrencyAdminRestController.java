@@ -15,7 +15,7 @@ import ru.nidecker.relexTestTask.service.CurrencyNameService;
 @RequestMapping(value = "rest/admin")
 @RequiredArgsConstructor
 @Slf4j
-public class CurrencyRestController {
+public class CurrencyAdminRestController {
 
     private final CurrencyNameService currencyNameService;
 

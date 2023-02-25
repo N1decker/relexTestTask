@@ -21,7 +21,7 @@ public class WalletRestController {
 
     @GetMapping(value = "wallets", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Double> getAllWallets(@AuthenticationPrincipal User user) {
-        return walletService.getAllWalletsName(user);
+        return walletService.getAllWalletsForUser(user);
     }
 
     @PostMapping(value = "wallets", produces = MediaType.APPLICATION_JSON_VALUE)

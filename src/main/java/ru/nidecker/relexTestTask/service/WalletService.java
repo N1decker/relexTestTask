@@ -25,7 +25,7 @@ public class WalletService {
     private final WalletRepository walletRepository;
     private final CurrencyNameService currencyNameService;
 
-    public Map<String, Double> getAllWalletsName(User user) {
+    public Map<String, Double> getAllWalletsForUser(User user) {
         return walletRepository.findAllByUserId(user.getId())
                 .stream()
                 .collect(Collectors.toMap(Wallet::getName, Wallet::getBalance));
