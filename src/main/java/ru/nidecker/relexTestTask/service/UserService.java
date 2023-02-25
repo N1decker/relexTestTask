@@ -15,6 +15,8 @@ import ru.nidecker.relexTestTask.repository.UserRepository;
 import java.util.Set;
 import java.util.UUID;
 
+import static ru.nidecker.relexTestTask.util.ValidationUtil.validateEmail;
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
@@ -31,6 +33,8 @@ public class UserService implements UserDetailsService {
         if (userRepository.countUsersByEmailEqualsIgnoreCase(dto.getEmail()) > 0) {
             throw new FieldAlreadyTakenException(String.format("email %s already taken", dto.getEmail()));
         }
+
+        validateEmail(dto.getEmail());
 
         String secretKey = UUID.randomUUID().toString();
         User user = new User();
