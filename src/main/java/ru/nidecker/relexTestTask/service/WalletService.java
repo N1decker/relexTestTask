@@ -7,12 +7,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 import ru.nidecker.relexTestTask.entity.User;
 import ru.nidecker.relexTestTask.entity.Wallet;
+import ru.nidecker.relexTestTask.entity.WalletAudit;
 import ru.nidecker.relexTestTask.exception.EntityAlreadyExistsException;
+import ru.nidecker.relexTestTask.repository.WalletAuditRepository;
 import ru.nidecker.relexTestTask.repository.WalletRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static ru.nidecker.relexTestTask.entity.enums.WalletAuditType.CREATE;
+import static ru.nidecker.relexTestTask.entity.enums.WalletAuditType.TOPUP;
 
 @Service
 @Slf4j
@@ -23,6 +29,8 @@ public class WalletService {
     public static final String CURRENCY_NOT_FOUND = "Currency by name - %s not found";
 
     private final WalletRepository walletRepository;
+
+    public final WalletAuditRepository walletAuditRepository;
     private final CurrencyNameService currencyNameService;
 
     public Map<String, Double> getAllWalletsForUser(User user) {
@@ -36,8 +44,6 @@ public class WalletService {
                                       User user) {
         List<String> allCurrencyNames = currencyNameService.getAllCurrencyNames();
 
-        log.info(allCurrencyNames.toString());
-
         if (!allCurrencyNames.contains(currencyName)) {
             throw new NotFoundException(String.format(CURRENCY_NOT_FOUND, currencyName));
         }
@@ -45,6 +51,8 @@ public class WalletService {
         if (walletRepository.findByNameAndUserId(currencyName, user.getId()).isPresent()) {
             throw new EntityAlreadyExistsException(currencyName + " wallet already created");
         }
+
+        walletAuditRepository.save(new WalletAudit(CREATE, user.getEmail(), currencyName, LocalDate.now()));
 
         return walletRepository.save(new Wallet(currencyName, user, 0d));
     }
@@ -66,6 +74,8 @@ public class WalletService {
         }
 
         wallet.setBalance(parsedBalance + wallet.getBalance());
+
+        walletAuditRepository.save(new WalletAudit(TOPUP, user.getEmail(), walletName, LocalDate.now()));
 
         return walletRepository.save(wallet);
     }

@@ -10,6 +10,7 @@ import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.nidecker.relexTestTask.entity.enums.Role;
 
 import java.util.Collection;
 import java.util.Objects;

@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.nidecker.relexTestTask.dto.RegistrationDTO;
-import ru.nidecker.relexTestTask.entity.Role;
+import ru.nidecker.relexTestTask.entity.enums.Role;
 import ru.nidecker.relexTestTask.entity.User;
 import ru.nidecker.relexTestTask.exception.FieldAlreadyTakenException;
 import ru.nidecker.relexTestTask.repository.UserRepository;

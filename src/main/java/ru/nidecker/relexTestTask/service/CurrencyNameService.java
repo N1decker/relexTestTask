@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.nidecker.relexTestTask.entity.CurrencyName;
-import ru.nidecker.relexTestTask.entity.Role;
+import ru.nidecker.relexTestTask.entity.enums.Role;
 import ru.nidecker.relexTestTask.entity.User;
 import ru.nidecker.relexTestTask.exception.DontHaveEnoughRightsException;
 import ru.nidecker.relexTestTask.exception.EntityAlreadyExistsException;

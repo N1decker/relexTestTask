@@ -1,4 +1,4 @@
-package ru.nidecker.relexTestTask.entity;
+package ru.nidecker.relexTestTask.entity.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
