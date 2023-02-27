@@ -31,9 +31,7 @@ public class SecurityConfig {
                 .requestMatchers("/rest/registration").permitAll()
                 .requestMatchers("rest/admin/**").hasRole(Role.ADMIN.name())
                 .requestMatchers("rest/user/").hasRole(Role.USER.name())
-                .anyRequest().authenticated()
-                .and().httpBasic()
-        ;
+                .and().httpBasic();
 
         return http.build();
     }

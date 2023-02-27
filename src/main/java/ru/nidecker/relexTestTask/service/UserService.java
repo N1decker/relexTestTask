@@ -10,12 +10,13 @@ import ru.nidecker.relexTestTask.dto.RegistrationDTO;
 import ru.nidecker.relexTestTask.entity.enums.Role;
 import ru.nidecker.relexTestTask.entity.User;
 import ru.nidecker.relexTestTask.exception.FieldAlreadyTakenException;
+import ru.nidecker.relexTestTask.exception.NotValidFieldException;
 import ru.nidecker.relexTestTask.repository.UserRepository;
 
 import java.util.Set;
 import java.util.UUID;
 
-import static ru.nidecker.relexTestTask.util.ValidationUtil.validateEmail;
+import static ru.nidecker.relexTestTask.util.ValidationUtil.isValidEmail;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,9 @@ public class UserService implements UserDetailsService {
             throw new FieldAlreadyTakenException(String.format("email %s already taken", dto.getEmail()));
         }
 
-        validateEmail(dto.getEmail());
+        if (!isValidEmail(dto.getEmail())) {
+            throw new NotValidFieldException("Email '" + dto.getEmail() + "' not valid");
+        }
 
         String secretKey = UUID.randomUUID().toString();
         User user = new User();
