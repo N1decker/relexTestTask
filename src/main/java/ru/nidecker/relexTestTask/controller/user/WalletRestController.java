@@ -5,11 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import ru.nidecker.relexTestTask.dto.WalletDTO;
 import ru.nidecker.relexTestTask.entity.User;
 import ru.nidecker.relexTestTask.entity.Wallet;
 import ru.nidecker.relexTestTask.service.WalletService;
 
-import java.util.Map;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -20,7 +21,7 @@ public class WalletRestController {
     public final WalletService walletService;
 
     @GetMapping(value = "wallets", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Double> getAllWallets(@AuthenticationPrincipal User user) {
+    public List<WalletDTO> getAllWallets(@AuthenticationPrincipal User user) {
         return walletService.getAllWalletsForUser(user);
     }
 
@@ -35,5 +36,13 @@ public class WalletRestController {
                                @RequestParam String wallet,
                                String balance) {
         return walletService.topUpBalance(wallet, balance, user);
+    }
+
+    @PostMapping("withdraw")
+    public Wallet withdrawMoney(@AuthenticationPrincipal User user,
+                                String walletName,
+                                String count,
+                                String creditCardOrWalletAddress) {
+        return walletService.withdrawMoney(user, walletName, count, creditCardOrWalletAddress);
     }
 }

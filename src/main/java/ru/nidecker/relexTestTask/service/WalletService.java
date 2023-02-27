@@ -5,17 +5,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
+import ru.nidecker.relexTestTask.dto.WalletDTO;
 import ru.nidecker.relexTestTask.entity.User;
 import ru.nidecker.relexTestTask.entity.Wallet;
 import ru.nidecker.relexTestTask.entity.WalletAudit;
 import ru.nidecker.relexTestTask.exception.EntityAlreadyExistsException;
 import ru.nidecker.relexTestTask.repository.WalletAuditRepository;
 import ru.nidecker.relexTestTask.repository.WalletRepository;
+import ru.nidecker.relexTestTask.util.ValidationUtil;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static ru.nidecker.relexTestTask.entity.enums.WalletAuditType.CREATE;
 import static ru.nidecker.relexTestTask.entity.enums.WalletAuditType.TOPUP;
@@ -33,10 +33,18 @@ public class WalletService {
     public final WalletAuditRepository walletAuditRepository;
     private final CurrencyNameService currencyNameService;
 
-    public Map<String, Double> getAllWalletsForUser(User user) {
+    public List<WalletDTO> getAllWalletsForUser(User user) {
         return walletRepository.findAllByUserId(user.getId())
                 .stream()
-                .collect(Collectors.toMap(Wallet::getName, Wallet::getBalance));
+                .map(wallet -> new WalletDTO(wallet.getName(), wallet.getBalance()))
+                .toList();
+    }
+
+    public Wallet getWalletByUserAndWalletName(User user,
+                                               String walletName) {
+        return walletRepository.findByNameAndUserId(walletName, user.getId())
+                .orElseThrow(() ->
+                        new NotFoundException(String.format(WALLET_NOT_FOUND, walletName)));
     }
 
     @Transactional
@@ -76,6 +84,30 @@ public class WalletService {
         wallet.setBalance(parsedBalance + wallet.getBalance());
 
         walletAuditRepository.save(new WalletAudit(TOPUP, user.getEmail(), walletName, LocalDate.now()));
+
+        return walletRepository.save(wallet);
+    }
+
+    public Wallet withdrawMoney(User user, String walletName, String count, String creditCardOrWalletAddress) {
+
+        double parsedBalance;
+        try {
+            parsedBalance = Double.parseDouble(count);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Enter a number");
+        }
+
+        Wallet wallet = getWalletByUserAndWalletName(user, walletName);
+
+        if (wallet.getBalance() < parsedBalance) {
+            throw new IllegalArgumentException("Insufficient funds in the " + walletName + " wallet");
+        }
+
+        ValidationUtil.validateCreditCard(creditCardOrWalletAddress);
+
+//        TODO: validate wallet address
+
+        wallet.setBalance(wallet.getBalance() - parsedBalance);
 
         return walletRepository.save(wallet);
     }
