@@ -28,9 +28,10 @@ public class SecurityConfig {
                 .requestMatchers("/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html").permitAll()
-                .requestMatchers("/rest/registration").permitAll()
-                .requestMatchers("rest/admin/**").hasRole(Role.ADMIN.name())
-                .requestMatchers("rest/user/").hasRole(Role.USER.name())
+                .requestMatchers("/rest/registration").anonymous()
+                .requestMatchers("/rest/admin/**").hasRole(Role.ADMIN.name())
+                .requestMatchers("/rest/user/**").hasRole(Role.USER.name())
+                .requestMatchers("/rest/**").authenticated()
                 .and().httpBasic();
 
         return http.build();
