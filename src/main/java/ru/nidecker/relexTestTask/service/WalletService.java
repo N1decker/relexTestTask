@@ -9,6 +9,8 @@ import ru.nidecker.relexTestTask.dto.WalletDTO;
 import ru.nidecker.relexTestTask.entity.User;
 import ru.nidecker.relexTestTask.entity.Wallet;
 import ru.nidecker.relexTestTask.entity.WalletAudit;
+import ru.nidecker.relexTestTask.entity.enums.Role;
+import ru.nidecker.relexTestTask.exception.DontHaveEnoughRightsException;
 import ru.nidecker.relexTestTask.exception.EntityAlreadyExistsException;
 import ru.nidecker.relexTestTask.exception.NotValidFieldException;
 import ru.nidecker.relexTestTask.repository.WalletAuditRepository;
@@ -113,5 +115,13 @@ public class WalletService {
         walletAuditRepository.save(new WalletAudit(WITHDRAW, user.getEmail(), walletName, LocalDate.now()));
 
         return walletRepository.save(wallet);
+    }
+
+    public WalletDTO getCurrencySum(User user, String currencyName) {
+        if (!user.getRoles().contains(Role.ADMIN)) {
+            throw new DontHaveEnoughRightsException("You don't have enough rights for this operation");
+        }
+
+        return new WalletDTO(currencyName, walletRepository.getSumOfCurrenciesByWalletName(currencyName));
     }
 }

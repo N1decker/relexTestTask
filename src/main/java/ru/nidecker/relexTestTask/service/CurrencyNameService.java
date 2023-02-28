@@ -20,7 +20,6 @@ public class CurrencyNameService {
 
     private final CurrencyNameRepository currencyNameRepository;
 
-    //TODO: cache for currency names
     public List<String> getAllCurrencyNames() {
         return currencyNameRepository.findAll().stream().map(CurrencyName::getName).toList();
     }
