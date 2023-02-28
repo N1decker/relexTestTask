@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/createEntities/create-users-and-roles.sql
+  - include:
+      file: db/changelog/changeset/createEntities/create-currency-name.sql
+  - include:
+      file: db/changelog/changeset/createEntities/create-wallet-and-wallet-audit.sql
+  - include:
+      file: db/changelog/changeset/initEntities/init-users-and-roles.sql
+  - include:
+      file: db/changelog/changeset/initEntities/init-currency-name.sql
+  - include:
+      file: db/changelog/changeset/initEntities/init-wallet-and-wallet-audit.sql

@@ -28,7 +28,7 @@ public class User extends BaseEntity implements UserDetails {
     @NotBlank
     private String email;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String secretKey;
 
     @Enumerated(EnumType.STRING)
