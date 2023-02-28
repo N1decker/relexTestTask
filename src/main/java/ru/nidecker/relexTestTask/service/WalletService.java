@@ -26,8 +26,8 @@ import static ru.nidecker.relexTestTask.util.ValidationUtil.isValidWalletAddress
 @RequiredArgsConstructor
 public class WalletService {
 
-    public static final String WALLET_NOT_FOUND = "Wallet %s not found on your account or did you make a mistake in the name";
-    public static final String CURRENCY_NOT_FOUND = "Currency by name - %s not found";
+    public static final String WALLET_NOT_FOUND = "Wallet '%s' not found on your account or did you make a mistake in the name";
+    public static final String CURRENCY_NOT_FOUND = "Currency by name '%s' not found";
 
     private final WalletRepository walletRepository;
 

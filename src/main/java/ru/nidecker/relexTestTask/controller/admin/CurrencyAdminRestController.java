@@ -2,6 +2,7 @@ package ru.nidecker.relexTestTask.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ public class CurrencyAdminRestController {
 
     private final CurrencyNameService currencyNameService;
 
+    @CacheEvict(value = "currencies", allEntries = true)
     @PostMapping(value = "currencies", produces = MediaType.APPLICATION_JSON_VALUE)
     public CurrencyName createCurrency(@AuthenticationPrincipal User user,
                                        String currencyName) {

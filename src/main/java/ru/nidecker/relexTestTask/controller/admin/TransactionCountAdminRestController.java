@@ -2,6 +2,7 @@ package ru.nidecker.relexTestTask.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ public class TransactionCountAdminRestController {
     private final WalletAuditService walletAuditService;
 
     @GetMapping("transactions")
+    @Cacheable("transactions")
     public Map<String, Long> getTransactionCount(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
                                                  @AuthenticationPrincipal User user) {

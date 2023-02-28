@@ -2,6 +2,7 @@ package ru.nidecker.relexTestTask.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +26,14 @@ public class WalletRestController {
         return walletService.getAllWalletsForUser(user);
     }
 
+    @CacheEvict(value = "transactions", allEntries = true)
     @PostMapping(value = "wallets", produces = MediaType.APPLICATION_JSON_VALUE)
     public Wallet createWallet(@AuthenticationPrincipal User user,
                                String currencyName) {
         return walletService.createWalletForUser(currencyName, user);
     }
 
+    @CacheEvict(value = "transactions", allEntries = true)
     @PutMapping(value = "wallets", produces = MediaType.APPLICATION_JSON_VALUE)
     public Wallet topUpBalance(@AuthenticationPrincipal User user,
                                @RequestParam String wallet,
@@ -38,6 +41,7 @@ public class WalletRestController {
         return walletService.topUpBalance(wallet, balance, user);
     }
 
+    @CacheEvict(value = "transactions", allEntries = true)
     @PostMapping("withdraw")
     public Wallet withdrawMoney(@AuthenticationPrincipal User user,
                                 String walletName,
