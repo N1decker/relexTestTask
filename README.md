@@ -23,6 +23,10 @@
 
 #### Credentials: admin@gmail.com/admin & user@gmail.com/user #### 
 
+
+https://user-images.githubusercontent.com/95280812/222080792-51cf13ac-0fe0-4b1b-af99-42ec1a83c945.mp4
+
+
 Также, можно запустить через докер (выполнять в этом же порядке):
 
 - docker run --name postgresql -e POSTGRES_PASSWORD=password -e POSTGRES_USER=user -e POSTGRES_DB=relexTestTask
